@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>م. مهندس كهرباء وتحكم | تصميم وتنفيذ المشاريع الهندسية</title>
+    <!-- تحميل خط Cairo من Google Fonts لدعم اللغة العربية بشكل احترافي -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151e32',
+                            900: '#0f172a',
+                            950: '#090d16',
+                        },
+                        electric: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #090d16;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        /* خلفية شبكية هندسية خفيفة */
+        .engineering-grid {
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+        /* تأثير توهج خفيف */
+        .glow-card:hover {
+            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.25);
+        }
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="engineering-grid antialiased selection:bg-electric-500 selection:text-white">
+
+    <!-- ==================== شريط التنقل العلوي (Navbar) ==================== -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-slate-950/85 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- الشعار / الاسم -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-electric-500 to-blue-700 flex items-center justify-center shadow-lg shadow-electric-500/20 group-hover:scale-105 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="block text-lg font-extrabold text-white tracking-wide">م. أحمد الحمروني</span>
+                        <span class="block text-xs text-electric-400 font-medium">Ahmed Alhamrouni • هندسة الكهرباء والتحكم</span>
+                    </div>
+                </a>
+
+                <!-- روابط التنقل (سطح المكتب) -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                    <a href="#home" class="hover:text-electric-400 transition-colors">الرئيسية</a>
+                    <a href="#projects" class="hover:text-electric-400 transition-colors">المشاريع المنفذة</a>
+                    <a href="#deliverables" class="hover:text-electric-400 transition-colors">ماذا تستلم؟</a>
+                    <a href="#workflow" class="hover:text-electric-400 transition-colors">آلية العمل والتسعير</a>
+                    <a href="#contact" class="hover:text-electric-400 transition-colors">اطلب مشروعك</a>
+                </nav>
+
+                <!-- زر تواصل سريع + زر القائمة للموبايل -->
+                <div class="flex items-center gap-3">
+                    <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-electric-500 hover:bg-electric-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-electric-500/20">
+                        <span>استشارة مجانية</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </a>
+                    <button id="mobileMenuBtn" aria-label="القائمة" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- القائمة المنسدلة للموبايل -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-5 space-y-2">
+            <a href="#home" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 font-semibold">الرئيسية</a>
+            <a href="#projects" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 font-semibold">المشاريع المنفذة</a>
+            <a href="#deliverables" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 font-semibold">ماذا تستلم؟</a>
+            <a href="#workflow" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 font-semibold">آلية العمل والتسعير</a>
+            <a href="#contact" class="block px-3 py-2.5 rounded-lg bg-electric-500/10 text-electric-400 font-bold">اطلب مشروعك الآن</a>
+        </div>
+    </header>
+
+    <!-- ==================== القسم الرئيسي (Hero Section) ==================== -->
+    <section id="home" class="relative pt-14 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+        <!-- إضاءة خلفية جمالية -->
+        <div class="absolute top-10 right-1/4 w-72 h-72 bg-electric-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 left-1/4 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- النصوص والأزرار -->
+                <div class="lg:col-span-7 text-center lg:text-right space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-electric-500/30 text-electric-400 text-xs sm:text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-electric-400 animate-pulse"></span>
+                        <span>متاح لاستقبال مشاريع الفصل الدراسي الحالي (مقاعد محدودة)</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                        تصميم وتنفيذ المشاريع الهندسية وأنظمة التحكم 
+                        <span class="text-transparent bg-clip-text bg-gradient-to-l from-electric-400 to-amber-400">بمعايير هندسية موثوقة</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        أساعد طلبة الهندسة الكهربائية والإلكترونية والميكاترونيكس في تحويل أفكار المشاريع الفصلية ومشاريع التخرج المصغرة إلى نماذج عملية تعمل بكفاءة عالية باستخدام <strong class="text-white">Arduino، ESP32، أنظمة PID، وإلكترونيات القدرة</strong> — مع كود نظيف ومخططات واضحة تؤهلك للمناقشة بثقة.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#projects" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-electric-500 hover:bg-electric-400 text-slate-950 font-bold text-base transition-all shadow-lg shadow-electric-500/25 flex items-center justify-center gap-2">
+                            <span>استكشف المشاريع المنفذة</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/218919939543" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-base transition-all flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                            </svg>
+                            <span>تواصل واتساب مباشرة</span>
+                        </a>
+                    </div>
+
+                    <!-- مؤشرات سريعة -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <div class="text-2xl font-extrabold text-white">+35</div>
+                            <div class="text-xs text-slate-400">مشروع عملي منفذ</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-electric-400">100%</div>
+                            <div class="text-xs text-slate-400">التزام بموعد التسليم</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-extrabold text-amber-400">كامل</div>
+                            <div class="text-xs text-slate-400">توثيق وشرح للمناقشة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بطاقة بصرية هندسية (Diagram / Hardware Card) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl relative">
+                        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">System_Architecture.ino</span>
+                        </div>
+
+                        <!-- رسم توضيحي لنظام تحكم مغلق -->
+                        <div class="bg-slate-950 rounded-xl p-5 border border-slate-800/90 space-y-4">
+                            <div class="flex items-center justify-between text-xs text-electric-400 font-semibold">
+                                <span>Closed-Loop Control System</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active • Stable</span>
+                            </div>
+                            
+                            <!-- SVG تفاعلي يمثل دائرة تحكم -->
+                            <svg viewBox="0 0 360 150" class="w-full h-auto">
+                                <!-- خطوط التوصيل -->
+                                <path d="M 30 75 L 85 75" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                                <path d="M 115 75 L 165 75" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                                <path d="M 235 75 L 285 75" stroke="#f59e0b" stroke-width="2" fill="none"/>
+                                <path d="M 335 75 L 350 75" stroke="#10b981" stroke-width="2" fill="none"/>
+                                <!-- مسار التغذية الراجعة Feedback -->
+                                <path d="M 310 95 L 310 130 L 100 130 L 100 92" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+                                
+                                <!-- نقطة الجمع Summing Junction -->
+                                <circle cx="100" cy="75" r="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+                                <text x="100" y="79" text-anchor="middle" fill="#f8fafc" font-size="12" font-family="monospace">Σ</text>
+
+                                <!-- بلوك المتحكم PID -->
+                                <rect x="165" y="52" width="70" height="46" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                                <text x="200" y="72" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">PID / MCU</text>
+                                <text x="200" y="87" text-anchor="middle" fill="#94a3b8" font-size="9">ESP32 / AVR</text>
+
+                                <!-- بلوك المشغل/المحرك Plant -->
+                                <rect x="285" y="52" width="55" height="46" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                                <text x="312" y="73" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">Plant</text>
+                                <text x="312" y="87" text-anchor="middle" fill="#94a3b8" font-size="8">Actuator</text>
+
+                                <!-- بلوك الحساس Sensor -->
+                                <rect x="175" y="116" width="60" height="26" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+                                <text x="205" y="133" text-anchor="middle" fill="#cbd5e1" font-size="9">Sensor Feedback</text>
+                            </svg>
+
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                                    <span class="text-slate-400 block">عزل دوائر القدرة:</span>
+                                    <span class="text-white font-semibold">Optocouplers & Relays</span>
+                                </div>
+                                <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                                    <span class="text-slate-400 block">تنظيم التغذية:</span>
+                                    <span class="text-white font-semibold">Buck / Linear Reg.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== قسم المشاريع المنفذة (Projects Showcase) ==================== -->
+    <section id="projects" class="py-20 bg-slate-900/40 border-y border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- عنوان القسم -->
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                <span class="text-electric-400 font-bold text-sm tracking-wider uppercase">معرض الأعمال الهندسية</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">نماذج من المشاريع المنفذة</h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    تصفح المشاريع حسب التخصص الهندسي، واضغط على <span class="text-white font-semibold">"تفاصيل المشروع"</span> لمعاينة المكونات، المميزات الهندسية، وخطوات التنفيذ.
+                </p>
+            </div>
+
+            <!-- أزرار تصفية المشاريع -->
+            <div id="filterButtons" class="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+                <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-electric-500 text-slate-950 shadow-md shadow-electric-500/20">
+                    جميع المشاريع (6)
+                </button>
+                <button data-filter="control" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800">
+                    أنظمة تحكم PID
+                </button>
+                <button data-filter="iot" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800">
+                    أتمتة و IoT
+                </button>
+                <button data-filter="power" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800">
+                    طاقة وقدرة
+                </button>
+            </div>
+
+            <!-- شبكة بطاقات المشاريع -->
+            <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- يتم توليد البطاقات ديناميكياً عبر JavaScript لضمان سهولة التحديث مستقبلاً -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== قسم ماذا تستلم مع مشروعك؟ (Deliverables) ==================== -->
+    <section id="deliverables" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+                <span class="text-amber-400 font-bold text-sm">ضمان الجودة الهندسية</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">ماذا تستلم مع مشروعك؟</h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    الهدف ليس فقط أن يعمل المشروع أمامك، بل أن تفهم كل جزء فيه وتكون مستعداً لأي سؤال من لجنة المناقشة.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- بطاقة 1 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 hover:border-electric-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-electric-500/10 border border-electric-500/20 flex items-center justify-center text-electric-400 mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">تنفيذ عملي وتوصيل مرتب</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        تجميع الدائرة باحترافية مع تنظيم الأسلاك، لحام متين، وتأمين مصادر التغذية والحماية لمنع أي أعطال مفاجئة يوم التسليم.
+                    </p>
+                </div>
+
+                <!-- بطاقة 2 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 hover:border-electric-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">مخطط التوصيل (Schematic)</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        مخطط هندسي واضح يبين توصيل كل حساس ومشغل مع المتحكم وقيم المقاومات والجهود، جاهز لإرفاقه في التقرير النهائي.
+                    </p>
+                </div>
+
+                <!-- بطاقة 3 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 hover:border-electric-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">كود برمجي نظيف ومشروح</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        كود منظم ومقسّم إلى دوال واضحة مع تعليقات تشرح وظيفة كل سطر برمجي وخوارزمية التحكم المستخدمة دون تعقيد عشوائي.
+                    </p>
+                </div>
+
+                <!-- بطاقة 4 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 hover:border-electric-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">جلسة شرح للمناقشة</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        شرح مفصل لمبدأ عمل الدائرة والكود، وأهم الأسئلة المتوقعة من الدكاترة وكيفية الإجابة عليها بثقة تامة.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== قسم آلية العمل والشفافية المالية ==================== -->
+    <section id="workflow" class="py-20 bg-slate-900/40 border-y border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <!-- خطوات العمل -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <span class="text-electric-400 font-bold text-sm">خطوات واضحة ومنظمة</span>
+                        <h2 class="text-3xl font-extrabold text-white mt-1">كيف نبدأ العمل على مشروعك؟</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-electric-500 text-slate-950 font-extrabold flex items-center justify-center shrink-0">1</div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">مناقشة الفكرة والمتطلبات</h3>
+                                <p class="text-sm text-slate-400 mt-1">تُرسل لي متطلبات المقرر أو الفكرة وموعد التسليم، ونحدد معاً المكونات المناسبة لميزانيتك.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-electric-500 text-slate-950 font-extrabold flex items-center justify-center shrink-0">2</div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">تقديم عرض السعر والجدول الزمني</h3>
+                                <p class="text-sm text-slate-400 mt-1">أزودك بتكلفة واضحة تشمل القطع والتنفيذ والبرمجة، مع تحديد موعد ثابت للتجربة والتسليم.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-electric-500 text-slate-950 font-extrabold flex items-center justify-center shrink-0">3</div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">التنفيذ والبرمجة والاختبار العملي</h3>
+                                <p class="text-sm text-slate-400 mt-1">أبدأ ببناء الدائرة وكتابة الكود ومعايرة الحساسات، ثم أرسل لك فيديو يوضح عمل النظام بالكامل.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 font-extrabold flex items-center justify-center shrink-0">4</div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">التسليم النهائي وجلسة الشرح</h3>
+                                <p class="text-sm text-slate-400 mt-1">تستلم المشروع جاهزاً مع ملفات الكود والمخطط، ونراجع معاً تفاصيل التشغيل لتكون مستعداً للمناقشة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بطاقة نظام الدفعات والضمان -->
+                <div class="lg:col-span-5 bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-7 shadow-xl space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/20">
+                        نظام الدفعات والشفافية
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">تسعير عادل ومقسّم على مراحل</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        يتم تحديد تكلفة المشروع بدقة بناءً على سعر القطع الفعلية ومستوى التعقيد البرمجي والهندسي، مع تقسيم الدفعات لضمان حق الطرفين:
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                            <div>
+                                <span class="text-white font-bold block text-sm">الدفعة الأولى (تأكيد وشراء القطع)</span>
+                                <span class="text-xs text-slate-400">عند الاتفاق وتأكيد المواصفات</span>
+                            </div>
+                            <span class="text-lg font-extrabold text-electric-400">50%</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                            <div>
+                                <span class="text-white font-bold block text-sm">الدفعة الثانية (بعد فيديو التشغيل)</span>
+                                <span class="text-xs text-slate-400">عند اكتمال التجميع والاختبار الفعلي</span>
+                            </div>
+                            <span class="text-lg font-extrabold text-electric-400">30%</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                            <div>
+                                <span class="text-white font-bold block text-sm">الدفعة الأخيرة (التسليم النهائي)</span>
+                                <span class="text-xs text-slate-400">عند استلام المشروع والملفات والشرح</span>
+                            </div>
+                            <span class="text-lg font-extrabold text-amber-400">20%</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-electric-500/10 border border-electric-500/20 text-xs text-slate-300 leading-relaxed">
+                        <strong class="text-electric-400">ملاحظة:</strong> في حال توفر بعض القطع لديك مسبقاً، يتم خصم تكلفتها بالكامل من إجمالي السعر بعد فحصها والتأكد من سلامتها.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== قسم التواصل وطلب تسعير مشروع (Contact Form) ==================== -->
+    <section id="contact" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <div class="text-center max-w-2xl mx-auto mb-8 space-y-2">
+                    <span class="text-electric-400 font-bold text-sm">ابدأ مشروعك الآن</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">أرسل تفاصيل مشروعك للحصول على تقييم وتسعير</h2>
+                    <p class="text-sm text-slate-400">
+                        املأ البيانات التالية ليتم تجهيز رسالة منظمة وإرسالها مباشرة عبر واتساب، وسأرد عليك بالتفاصيل والتكلفة المتوقعة.
+                    </p>
+                </div>
+
+                <form id="quoteForm" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="studentName" class="block text-sm font-semibold text-slate-300 mb-2">الاسم الكريم *</label>
+                            <input type="text" id="studentName" required placeholder="مثال: محمد علي" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-electric-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="projectCategory" class="block text-sm font-semibold text-slate-300 mb-2">مجال المشروع *</label>
+                            <select id="projectCategory" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-electric-500 transition-colors">
+                                <option value="أنظمة تحكم PID">أنظمة تحكم مغلق (PID Control)</option>
+                                <option value="أتمتة و IoT (Arduino / ESP32)">أتمتة وإنترنت الأشياء (Arduino / ESP32)</option>
+                                <option value="طاقة متجددة وإلكترونيات قدرة">طاقة متجددة وإلكترونيات قدرة</option>
+                                <option value="فكرة مخصصة / غير محدد بعد">فكرة مخصصة / أحتاج اقتراح فكرة</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="deadline" class="block text-sm font-semibold text-slate-300 mb-2">الموعد المطلوب للتسليم *</label>
+                            <input type="text" id="deadline" required placeholder="مثال: بعد أسبوعين / تاريخ 15 ديسمبر" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-electric-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="partsStatus" class="block text-sm font-semibold text-slate-300 mb-2">حالة القطع والمكونات</label>
+                            <select id="partsStatus" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-electric-500 transition-colors">
+                                <option value="أحتاج توفير كافة القطع والتنفيذ">أحتاج توفير كافة القطع والتنفيذ</option>
+                                <option value="لديّ بعض القطع وأحتاج استكمال الباقي">لديّ بعض القطع وأحتاج استكمال الباقي</option>
+                                <option value="لديّ القطع وأحتاج التوصيل والبرمجة فقط">لديّ القطع وأحتاج التوصيل والبرمجة فقط</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="projectDetails" class="block text-sm font-semibold text-slate-300 mb-2">وصف مختصر للفكرة أو متطلبات المقرر *</label>
+                        <textarea id="projectDetails" rows="4" required placeholder="اكتب هنا فكرة المشروع، أو اسم المادة الدراسية إذا كنت تبحث عن اقتراح فكرة مناسبة..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-electric-500 transition-colors"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <button type="submit" class="flex-1 py-4 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-base transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                            </svg>
+                            <span>إرسال الطلب عبر واتساب</span>
+                        </button>
+                        <button type="button" id="copySummaryBtn" class="py-4 px-6 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition-all border border-slate-700">
+                            نسخ نص الطلب
+                        </button>
+                    </div>
+                    <!-- رسالة تأكيد النسخ -->
+                    <p id="copyFeedback" class="hidden text-center text-xs text-emerald-400 font-semibold">تم نسخ تفاصيل الطلب بنجاح! يمكنك لصقها في أي تطبيق مراسلة.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== التذييل (Footer) ==================== -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                <span class="font-bold text-white">م. أحمد الحمروني (Ahmed Alhamrouni)</span>
+                <span>— تصميم وتنفيذ المشاريع الهندسية وأنظمة التحكم</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs text-slate-500">
+                <a href="https://wa.me/218919939543" target="_blank" rel="noopener noreferrer" dir="ltr" class="text-emerald-400 hover:underline font-mono">+218 91-9939543</a>
+                <span>•</span>
+                <span>جميع الحقوق محفوظة © <span id="currentYear"></span></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== نافذة تفاصيل المشروع (Modal) ==================== -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 relative">
+            <!-- زر الإغلاق -->
+            <button id="closeModalBtn" aria-label="إغلاق" class="absolute top-5 left-5 p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <div id="modalContent" class="space-y-6">
+                <!-- يتم ملء التفاصيل ديناميكياً عبر JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== البرمجة التفاعلية (JavaScript) ==================== -->
+    <script>
+        // رقم الواتساب الخاص بالمهندس أحمد الحمروني بصيغة دولية
+        const ENGINEER_WHATSAPP_NUMBER = "218919939543";
+
+        // قاعدة بيانات المشاريع (يمكنك تعديلها وإضافة مشاريعك الحقيقية بسهولة)
+        const projectsData = [
+            {
+                id: 1,
+                title: "التحكم في سرعة محرك DC باستخدام خوارزمية PID",
+                category: "control",
+                categoryLabel: "أنظمة تحكم PID",
+                shortDesc: "نظام تحكم مغلق يحافظ على سرعة دوران ثابتة للمحرك رغم تغير الأحمال الميكانيكية مع رسم منحنى الاستجابة لحظياً.",
+                objective: "تصميم وتنفيذ نظام تحكم آلي يضمن استقرار سرعة محرك تيار مستمر عند القيمة المرجعية (Setpoint) وتقليل نسبة التجاوز (Overshoot) وزمن الاستقرار.",
+                components: ["Arduino Uno", "DC Motor + Encoder", "BTS7960 Driver", "PID Algorithm", "Serial Plotter"],
+                highlights: [
+                    "قراءة نبضات الـ Encoder باستخدام المقاطعات (Hardware Interrupts) لدقة عالية.",
+                    "ضبط معاملات (Kp, Ki, Kd) عملياً للحصول على استجابة سريعة دون تذبذب.",
+                    "عزل دائرة القدرة عن المتحكم لحماية منافذ الإدخال والإخراج."
+                ],
+                iconType: "pid"
+            },
+            {
+                id: 2,
+                title: "نظام ري ذكي ومراقبة مناخية عبر ESP32",
+                category: "iot",
+                categoryLabel: "أتمتة و IoT",
+                shortDesc: "مراقبة رطوبة التربة ودرجة الحرارة وتشغيل المضخة تلقائياً أو عن بُعد عبر لوحة تحكم ويب تفاعلية.",
+                objective: "أتمتة عملية الري لترشيد استهلاك المياه مع توفير واجهة مراقبة لحظية تتيح للمستخدم التحكم اليدوي أو التلقائي.",
+                components: ["ESP32", "Capacitive Soil Sensor", "DHT22", "Optocoupler Relay", "OLED Display"],
+                highlights: [
+                    "استخدام حساس رطوبة سعوي (Capacitive) مقاوم للتآكل لضمان استقرار القراءات.",
+                    "واجهة ويب مدمجة داخل ESP32 لعرض القراءات والتحكم بالمضخة من الهاتف.",
+                    "حماية المضخة من التشغيل الجاف وتأمين تغذية مستقرة."
+                ],
+                iconType: "iot"
+            },
+            {
+                id: 3,
+                title: "نظام تحويل تلقائي بين مصدرين (ATS) مصغر",
+                category: "power",
+                categoryLabel: "طاقة وقدرة",
+                shortDesc: "مراقبة جهد الشبكة الرئيسية والتحويل التلقائي إلى المصدر الاحتياطي مع زمن تأخير للحماية وعرض القيم.",
+                objective: "محاكاة وتنفيذ وحدة تحويل تلقائي ذكية تحمي الأحمال الكهربائية من انقطاع التيار أو انخفاض/ارتفاع الجهد المفاجئ.",
+                components: ["Arduino Nano", "ZMPT101B Voltage Sensor", "Power Relays", "LCD 16x2 I2C", "Buzzer"],
+                highlights: [
+                    "حساب القيمة الفعالة للجهد المتردد (True RMS) بدقة عالية.",
+                    "تطبيق زمن أمان (Interlock Delay) لمنع تداخل المصدرين معاً.",
+                    "فصل الحمل تلقائياً عند خروج الجهد عن النطاق الآمن."
+                ],
+                iconType: "power"
+            },
+            {
+                id: 4,
+                title: "التحكم في مستوى السائل في خزان (Water Level PID)",
+                category: "control",
+                categoryLabel: "أنظمة تحكم PID",
+                shortDesc: "الحفاظ على ارتفاع محدد للماء داخل خزان عبر التحكم النسبي في سرعة المضخة (PWM) لتعويض السحب.",
+                objective: "تطبيق عملي لأنظمة التحكم في العمليات الصناعية (Process Control) لتثبيت منسوب السائل بدقة.",
+                components: ["Arduino Uno", "Ultrasonic Sensor", "MOSFET IRF540N", "DC Water Pump", "OLED Screen"],
+                highlights: [
+                    "فلترة قراءات حساس المسافة (Moving Average Filter) لإزالة التشويش الناتج عن تموج الماء.",
+                    "التحكم السلس في سرعة المضخة عبر إشارة PWM بدلاً من التشغيل المتقطع.",
+                    "عرض مستوى الماء والخطأ اللحظي على شاشة رقمية."
+                ],
+                iconType: "pid"
+            },
+            {
+                id: 5,
+                title: "متتبع شمسي ثنائي المحور (Dual-Axis Solar Tracker)",
+                category: "power",
+                categoryLabel: "طاقة وقدرة",
+                shortDesc: "توجيه اللوح الشمسي تلقائياً نحو أعلى شدة إضاءة طوال اليوم لزيادة الطاقة المولّدة ومقارنة الكفاءة.",
+                objective: "رفع كفاءة الألواح الشمسية عبر تتبع مسار الشمس أفقياً وعمودياً مع قياس الجهد والتيار والقدرة اللحظية.",
+                components: ["Arduino Uno", "4x LDR Sensors", "2x Servo Motors", "INA219 Power Sensor", "Solar Panel"],
+                highlights: [
+                    "تصميم خوارزمية مقارنة ضوئية مع منطقة خمول (Deadband) لمنع اهتزاز المحركات.",
+                    "قياس القدرة الكهربائية المولدة (mW) وعرضها للمقارنة مع اللوح الثابت.",
+                    "وضع العودة التلقائية (Night Reset) عند غروب الشمس."
+                ],
+                iconType: "power"
+            },
+            {
+                id: 6,
+                title: "نظام إدارة طاقة وحماية الأحمال المنزلية",
+                category: "iot",
+                categoryLabel: "أتمتة و IoT",
+                shortDesc: "قياس التيار والقدرة المستهلكة لعدة أحمال وفصل الأحمال غير الضرورية تلقائياً عند تجاوز الحد المسموح.",
+                objective: "تطوير نظام ذكي لمراقبة الاستهلاك الكهربائي ومنع الفصل الكلي للقاطع الرئيسي عبر جدولة أولويات الأحمال.",
+                components: ["ESP32", "ACS712 / PZEM-004T", "4-Channel Relay", "LCD Display", "Wi-Fi Dashboard"],
+                highlights: [
+                    "تصنيف الأحمال حسب الأولوية وفصل الأحمال الثانوية تلقائياً عند زيادة الحمل.",
+                    "حساب الاستهلاك التراكمي بالكيلوواط/ساعة (kWh).",
+                    "إرسال تنبيه فوري عند حدوث حمل زائد (Overload)."
+                ],
+                iconType: "iot"
+            }
+        ];
+
+        // دالة توليد رسم SVG هندسي مناسب لكل فئة مشروع
+        function getProjectVisualSVG(type) {
+            if (type === "pid") {
+                return `
+                <svg viewBox="0 0 320 140" class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800/80 p-3">
+                    <line x1="25" y1="115" x2="295" y2="115" stroke="#334155" stroke-width="1.5"/>
+                    <line x1="25" y1="20" x2="25" y2="115" stroke="#334155" stroke-width="1.5"/>
+                    <line x1="25" y1="45" x2="295" y2="45" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5 4"/>
+                    <path d="M 25 115 Q 65 22, 105 55 T 185 45 L 295 45" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+                    <text x="235" y="38" fill="#fbbf24" font-size="10" font-family="sans-serif">Setpoint</text>
+                    <text x="120" y="95" fill="#38bdf8" font-size="10" font-family="sans-serif">PID Step Response</text>
+                </svg>`;
+            } else if (type === "iot") {
+                return `
+                <svg viewBox="0 0 320 140" class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800/80 p-3">
+                    <rect x="30" y="45" width="75" height="50" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.8"/>
+                    <text x="67" y="74" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">Sensors</text>
+                    <path d="M 105 70 L 135 70" stroke="#64748b" stroke-width="2"/>
+                    <rect x="135" y="40" width="80" height="60" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                    <text x="175" y="68" text-anchor="middle" fill="#34d399" font-size="12" font-weight="bold">ESP32</text>
+                    <text x="175" y="84" text-anchor="middle" fill="#94a3b8" font-size="9">Wi-Fi / Web</text>
+                    <path d="M 215 70 L 245 70" stroke="#64748b" stroke-width="2"/>
+                    <circle cx="272" cy="70" r="24" fill="#0f172a" stroke="#f59e0b" stroke-width="1.8"/>
+                    <text x="272" y="74" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">Cloud</text>
+                </svg>`;
+            } else {
+                return `
+                <svg viewBox="0 0 320 140" class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800/80 p-3">
+                    <path d="M 25 70 Q 45 25, 65 70 T 105 70 T 145 70" fill="none" stroke="#f59e0b" stroke-width="2.2"/>
+                    <rect x="165" y="42" width="65" height="56" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                    <text x="197" y="68" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">Power</text>
+                    <text x="197" y="82" text-anchor="middle" fill="#cbd5e1" font-size="9">Control</text>
+                    <line x1="230" y1="70" x2="295" y2="70" stroke="#10b981" stroke-width="2.5"/>
+                    <text x="262" y="60" text-anchor="middle" fill="#34d399" font-size="10">Stable Out</text>
+                </svg>`;
+            }
+        }
+
+        // عرض المشاريع في الصفحة
+        const projectsGrid = document.getElementById('projectsGrid');
+
+        function renderProjects(filter = 'all') {
+            projectsGrid.innerHTML = '';
+            const filtered = filter === 'all' 
+                ? projectsData 
+                : projectsData.filter(p => p.category === filter);
+
+            filtered.forEach(project => {
+                const card = document.createElement('article');
+                card.className = 'bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between transition-all hover:border-electric-500/50 glow-card';
+                
+                const tagsHtml = project.components.slice(0, 3).map(comp => 
+                    `<span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-300 font-mono">${comp}</span>`
+                ).join('');
+
+                card.innerHTML = `
+                    <div>
+                        <div class="mb-4 relative">
+                            ${getProjectVisualSVG(project.iconType)}
+                            <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-slate-900/90 border border-slate-700 text-xs font-bold text-electric-400">
+                                ${project.categoryLabel}
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white mb-2 leading-snug">${project.title}</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed mb-4">${project.shortDesc}</p>
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            ${tagsHtml}
+                            ${project.components.length > 3 ? `<span class="px-2 py-1 text-xs text-slate-500">+${project.components.length - 3}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3">
+                        <button onclick="openProjectModal(${project.id})" class="flex-1 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-electric-500 hover:text-slate-950 text-white font-bold text-sm transition-all">
+                            تفاصيل المشروع
+                        </button>
+                        <button onclick="selectProjectForQuote('${project.title}')" class="py-2.5 px-3.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-electric-400 text-xs font-bold transition-colors" title="اطلب مشروعاً مشابهاً">
+                            اطلب مثله
+                        </button>
+                    </div>
+                `;
+                projectsGrid.appendChild(card);
+            });
+        }
+
+        // تفعيل أزرار التصفية
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-electric-500', 'text-slate-950', 'shadow-md', 'shadow-electric-500/20');
+                    b.classList.add('bg-slate-900', 'text-slate-300', 'border', 'border-slate-800');
+                });
+                btn.classList.remove('bg-slate-900', 'text-slate-300', 'border', 'border-slate-800');
+                btn.classList.add('bg-electric-500', 'text-slate-950', 'shadow-md', 'shadow-electric-500/20');
+                renderProjects(btn.dataset.filter);
+            });
+        });
+
+        // التحكم بنافذة تفاصيل المشروع (Modal)
+        const projectModal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        function openProjectModal(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+
+            const allComponentsHtml = project.components.map(c => 
+                `<span class="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-electric-400 font-mono">${c}</span>`
+            ).join('');
+
+            const highlightsHtml = project.highlights.map(h => 
+                `<li class="flex items-start gap-2.5 text-sm text-slate-300">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>${h}</span>
+                </li>`
+            ).join('');
+
+            modalContent.innerHTML = `
+                <div>
+                    <span class="inline-block px-3 py-1 rounded-lg bg-electric-500/10 border border-electric-500/20 text-electric-400 text-xs font-bold mb-3">
+                        ${project.categoryLabel}
+                    </span>
+                    <h3 class="text-2xl font-extrabold text-white leading-snug">${project.title}</h3>
+                </div>
+
+                <div>
+                    ${getProjectVisualSVG(project.iconType)}
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-sm font-bold text-amber-400">الهدف الهندسي من المشروع:</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">${project.objective}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-sm font-bold text-white">المكونات والتقنيات المستخدمة:</h4>
+                    <div class="flex flex-wrap gap-2">${allComponentsHtml}</div>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-sm font-bold text-white">أبرز المميزات في التنفيذ:</h4>
+                    <ul class="space-y-2">${highlightsHtml}</ul>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400">
+                    <strong class="text-white">ملاحظة:</strong> يمكنك طلب هذا المشروع كما هو أو تعديل مواصفاته وإضافة حساسات أو واجهات عرض تناسب متطلبات مادتك الدراسية.
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                    <button onclick="selectProjectForQuote('${project.title}')" class="flex-1 py-3.5 px-5 rounded-xl bg-electric-500 hover:bg-electric-400 text-slate-950 font-extrabold text-sm transition-all">
+                        اطلب مشروعاً مشابهاً الآن
+                    </button>
+                    <button onclick="closeProjectModal()" class="py-3.5 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition-all">
+                        إغلاق
+                    </button>
+                </div>
+            `;
+
+            projectModal.classList.remove('hidden');
+            projectModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal() {
+            projectModal.classList.add('hidden');
+            projectModal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        closeModalBtn.addEventListener('click', closeProjectModal);
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) closeProjectModal();
+        });
+
+        // تعبئة نموذج الطلب تلقائياً عند اختيار مشروع معين
+        function selectProjectForQuote(projectTitle) {
+            closeProjectModal();
+            const detailsField = document.getElementById('projectDetails');
+            detailsField.value = `أرغب في الاستفسار عن تنفيذ مشروع مشابه لـ: (${projectTitle})، وأود معرفة التكلفة والمدة المتوقعة.`;
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            detailsField.focus();
+        }
+
+        // تجهيز رسالة الطلب وإرسالها عبر واتساب أو نسخها
+        function buildQuoteMessage() {
+            const name = document.getElementById('studentName').value.trim();
+            const category = document.getElementById('projectCategory').value;
+            const deadline = document.getElementById('deadline').value.trim();
+            const parts = document.getElementById('partsStatus').value;
+            const details = document.getElementById('projectDetails').value.trim();
+
+            return `السلام عليكم مهندس، أود الاستفسار عن تنفيذ مشروع هندسي:\n\n` +
+                   `• الاسم: ${name || 'غير محدد'}\n` +
+                   `• المجال: ${category}\n` +
+                   `• موعد التسليم المطلوب: ${deadline || 'غير محدد'}\n` +
+                   `• حالة القطع: ${parts}\n` +
+                   `• التفاصيل: ${details || 'غير محدد'}`;
+        }
+
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = buildQuoteMessage();
+            const whatsappUrl = `https://wa.me/${ENGINEER_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        document.getElementById('copySummaryBtn').addEventListener('click', function() {
+            const message = buildQuoteMessage();
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = message;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const feedback = document.getElementById('copyFeedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => feedback.classList.add('hidden'), 4000);
+        });
+
+        // قائمة الموبايل
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // تهيئة الصفحة عند التحميل
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        renderProjects('all');
+    </script>
+</body>
+</html>
